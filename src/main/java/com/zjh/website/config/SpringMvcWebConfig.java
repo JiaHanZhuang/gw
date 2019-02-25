@@ -11,7 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
+ *<p>Title: SpringMvcWebConfig.java</p>
+ *<p>Description: SpringMVC配置</p>
+ *<p>CreateDate: 2019年2月25日</p>
  * @author zjh
+ * @version v1.0
  */
 @Configuration
 @EnableWebMvc

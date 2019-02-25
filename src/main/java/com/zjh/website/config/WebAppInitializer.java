@@ -7,7 +7,11 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.Filter;
 
 /**
+ *<p>Title: WebAppInitializer.java</p>
+ *<p>Description: webServlet配置，相当于Web.xml</p>
+ *<p>CreateDate: 2019年2月25日</p>
  * @author zjh
+ * @version v1.0
  */
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 

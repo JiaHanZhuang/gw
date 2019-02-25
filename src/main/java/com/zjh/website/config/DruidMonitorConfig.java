@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- *<p>Title: DruidConfiguration.java</p>
+ *<p>Title: DruidMonitorConfig.java</p>
  *<p>Description: Druid监控配置</p>
  *<p>CreateDate: 2017年5月3日</p>
  *@author shen

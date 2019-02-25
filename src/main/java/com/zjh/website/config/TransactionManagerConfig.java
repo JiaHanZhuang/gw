@@ -13,7 +13,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 /**
+ *<p>Title: TransactionManagerConfig.java</p>
+ *<p>Description: 事务配合</p>
+ *<p>CreateDate: 2019年2月25日</p>
  * @author zjh
+ * @version v1.0
  */
 @Configuration
 @EnableTransactionManagement
