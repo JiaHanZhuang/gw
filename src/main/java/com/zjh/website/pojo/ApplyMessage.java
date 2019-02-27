@@ -33,7 +33,7 @@ public class ApplyMessage {
     private String name;
 
     /**
-     * 性别
+     * 性别,0为女性，1位男性
      */
     @Basic
     @Column(length = 2)
@@ -85,6 +85,22 @@ public class ApplyMessage {
     @Column(length = 255)
     private String resume;
 
+    /**
+     * 通过标识，0为不通过，1为通过
+     */
+    @Basic
+    @Column(length = 2)
+    @Min(value = 0)
+    @Max(value = 1)
+    private Integer mark;
+
+    public Integer getMark() {
+        return mark;
+    }
+
+    public void setMark(Integer mark) {
+        this.mark = mark;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -161,6 +177,6 @@ public class ApplyMessage {
     @Override
     public String toString() {
         return "{"+this.id+","+this.name+","+this.department+","+this.sex+","+this.email+","
-                +this.phone+","+this.profession+","+this.qq+","+this.resume+"}";
+                +this.phone+","+this.profession+","+this.qq+","+this.resume+","+this.mark+"}";
     }
 }

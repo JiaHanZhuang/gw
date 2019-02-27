@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  *<p>Title: ApplyController.java</p>
- *<p>Description: 报名信息提交控制器</p>
+ *<p>Description: 报名信息控制器</p>
  *<p>CreateDate: 2019年2月25日</p>
  * @author zjh
  * @version v1.0
@@ -72,6 +72,18 @@ public class ApplyController {
         session.setAttribute("token",map.get("token"));
         return map;
     }
+
+    /**
+     * 查询报名结果
+     * @param applyMessage 查询信息
+     * @return 报名结果
+     */
+    @RequestMapping("applyResult")
+    @ResponseBody
+    public HttpMessage selectApplyResult(ApplyMessage applyMessage) {
+        return applyService.applyResult(applyMessage);
+    }
+
 
     /**
      * 判断token是否存储或过期

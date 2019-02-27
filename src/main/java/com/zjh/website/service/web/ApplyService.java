@@ -25,4 +25,11 @@ public interface ApplyService {
      */
     HttpMessage apply(ApplyMessage applyMessage);
 
+    /**
+     * 查询报名结果
+     * @param applyMessage 查询信息
+     * @return 报名结果
+     */
+    HttpMessage applyResult(ApplyMessage applyMessage);
+
 }

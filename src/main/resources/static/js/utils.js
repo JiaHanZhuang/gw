@@ -320,3 +320,88 @@ class Message extends React.Component {
         return(<span>{this.state.admin.username}</span>);
     }
 }
+
+class SelectApply extends React.Component {
+    constructor(){
+        super();
+        this.state = {name:"",phone:"",department:"Java部"}
+        this.changeName=this.changeName.bind(this);
+        this.changePhone=this.changePhone.bind(this);
+        this.changeDepartment=this.changeDepartment.bind(this);
+        this.sumbit=this.sumbit.bind(this);
+    }
+
+    changeName(e){
+        this.setState({
+            name:e.target.value
+        });
+    }
+
+    changePhone(e){
+        this.setState({
+            phone:e.target.value
+        });
+    }
+
+    changeDepartment(e){
+        this.setState({
+            department:e.target.value
+        });
+    }
+
+    sumbit(){
+        let name = this.state.name;
+        let phone = this.state.phone;
+        let department = this.state.department;
+        let flag = true;
+        if(name === ""){
+            flag = false;
+        }
+        if(phone === ""){
+            flag = false;
+        }
+        if(flag) {
+            $.post("/aode/applyResult",{
+                name:name,
+                phone:phone,
+                department:department
+            },function (result) {
+                alert(result.message)
+            })
+        }
+    }
+
+    render(){
+        return(
+            <div>
+                    <div className="reg-fom-btm mt-5">
+                        <div className="fields">
+                            <span className="text-white mb-2">查询的姓名</span>
+                            <input type="text" className="form-control" defaultValue={this.state.name} onChange={this.changeName}/>
+                        </div>
+                    </div>
+                    <div className="reg-fom-btm mt-3">
+                        <div className="fields">
+                            <span className="text-white mb-2">查询的电话号码</span>
+                            <input type="text" className="form-control" defaultValue={this.state.phone} onChange={this.changePhone}/>
+                        </div>
+                    </div>
+                    <div className="reg-fom-btm mt-3">
+                        <div className="fields">
+                            <span className="text-white mb-2">查询部门</span>
+                            <select className="form-control" onChange={this.changeDepartment}>
+                                <option value="Java部">Java部</option>
+                                <option value="美工部">美工部</option>
+                                <option value=".Net部">.Net部</option>
+                                <option value="行政部">行政部</option>
+                                <option value="php部">php部</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="reg-fom-btm mt-3">
+                        <input type="submit" value="查询" onClick={this.sumbit}/>
+                    </div>
+            </div>
+        );
+    }
+}

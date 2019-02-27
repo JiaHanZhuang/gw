@@ -29,6 +29,16 @@
 	<link href="http://fonts.googleapis.com/css?family=Roboto:100i,400,500,700" rel="stylesheet">
 	<link href="http://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800" rel="stylesheet">
 	<!-- //online-fonts -->
+	<script crossorigin src="/static/js/react.production.min.js"></script>
+	<script crossorigin src="/static/js/react-dom.production.min.js"></script>
+	<script crossorigin src="/static/js/babel.min.js"></script>
+	<script src="/static/js/utils.js" type="text/babel"></script>
+	<script type="text/babel">
+        ReactDOM.render(
+            <SelectApply/>,
+            document.getElementById("selectApply")
+        )
+	</script>
 </head>
 
 <body>
@@ -96,37 +106,9 @@
 						<h2 class="heading-agileinfo"> 欢迎来到 <span> 奥德科技</span></h2>
 						<p class="vam">广东东软学院sovo首批成立的虚拟公司之一，专注于IT技术领域，拥有技术实力强大的技术部门，以及管理策划能力强大的行政部门。</p></div>
 				</div>
-				<div class="col-lg-4 reg-fom">
+				<div class="col-lg-4 reg-fom" >
 					<h4 class="text-white text-center">查询录取结果</h4>
-						<form action="#" method="post">
-							<div class="reg-fom-btm mt-5">
-								<div class="fields">
-									<span class="text-white mb-2">查询的姓名</span>
-									<input type="text" class="form-control" value="姓名">
-								</div>
-							</div>
-							<div class="reg-fom-btm mt-3">
-								<div class="fields">
-									<span class="text-white mb-2">查询的电话号码</span>
-									<input type="text" class="form-control" value="电话号码">
-								</div>
-							</div>
-							<div class="reg-fom-btm mt-3">
-								<div class="fields">
-									<span class="text-white mb-2">查询部门</span>
-									<select class="form-control">
-										<option>Java部门</option>
-										<option>.Net部门</option>
-										<option>PHP部门</option>
-										<option>美工部门</option>
-										<option>行政部门</option>
-									</select>
-								</div>
-							</div>
-							<div class="reg-fom-btm mt-3">
-								<input type="submit" value="查询">
-							</div>
-						</form>
+						<div id="selectApply" class="text-white text-center"></div>
 				</div>
 			</div>
 		</div>

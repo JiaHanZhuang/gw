@@ -58,5 +58,24 @@ public class ApplyServiceImpl implements ApplyService {
         return message;
     }
 
-
+    @Override
+    public HttpMessage applyResult(ApplyMessage applyMessage) {
+        HttpMessage message = new HttpMessage("200");
+        logger.info("提交的信息是："+applyMessage.toString());
+        String department = applyMessage.getDepartment();
+        //查询结果
+        Integer flag= applyDao.findApplyResult(applyMessage.getName(),applyMessage.getPhone(),department);
+        logger.info("查询信息是："+ flag);
+        //判空
+        if(flag == null) {
+            message.setMessage("您所查询的结果不存在");
+        } else {
+            if(flag == 1) {
+                message.setMessage("恭喜您！通过了"+applyMessage.getDepartment()+"的面试，详情请关注邮件信息");
+            } else {
+                message.setMessage("很遗憾，您并未被录取");
+            }
+        }
+        return message;
+    }
 }
