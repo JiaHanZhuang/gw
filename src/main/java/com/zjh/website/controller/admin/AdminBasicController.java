@@ -29,17 +29,15 @@ public class AdminBasicController {
         return "/admin/login";
     }
 
-//    /**
-//     * @param session
-//     * @return
-//     */
-//    @ResponseBody
-//    @RequestMapping(value = "selectMessage",method = RequestMethod.GET)
-//    public HttpMessageAndObject<Admin> selectMessage(HttpSession session){
-//        Admin admin = (Admin) session.getAttribute("admin");
-//        HttpMessageAndObject<Admin> httpMessage = new HttpMessageAndObject<Admin>("200");
-//        httpMessage.setObj(admin);
-//        return httpMessage;
-//    }
+    @RequestMapping("/main")
+    public String main(){
+        return "/admin/main";
+    }
+
+    @RequestMapping("logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("admin");
+        return "redirect:/aode/admin/login";
+    }
 
 }

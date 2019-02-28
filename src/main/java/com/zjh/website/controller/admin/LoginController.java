@@ -28,33 +28,53 @@ public class LoginController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     * 注册新管理员
+     * @param admin 注册信息
+     * @param code 验证码
+     * @return 注册结果信息
+     */
     @ResponseBody
     @RequestMapping(value = "/loginUp",method = RequestMethod.POST)
-    public HttpMessage loginIn(Admin admin, HttpSession session) {
-        HttpMessageAndObject<Admin> httpMessage = adminService.saveAdmin(admin);
-        if(httpMessage.getObj()!=null) {
-            session.setAttribute("admin",httpMessage.getObj());
-        }
+    public HttpMessage loginIn(Admin admin,String code) {
+        HttpMessage httpMessage = adminService.saveAdmin(admin,code);
         return httpMessage;
     }
 
+    /**
+     * 后台管理端登录
+     * @param admin 登录密码与账户
+     * @param session 存储session
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/loginAdmin",method = RequestMethod.POST)
     public HttpMessage loginUp(Admin admin, HttpSession session) {
-        HttpMessageAndObject<Admin> httpMessae = adminService.loginUp(admin);
-        session.setAttribute("admin",httpMessae.getObj());
+        //查看session
+        Object obj = session.getAttribute("admin");
+        HttpMessageAndObject<Admin> httpMessae;
+        //判断session中是否存储了Admin信息
+        if(obj == null) {
+            httpMessae = adminService.loginUp(admin);
+            session.setAttribute("admin",httpMessae.getObj());
+        } else {
+            httpMessae = new HttpMessageAndObject<Admin>("200");
+            httpMessae.setObj((Admin)obj);
+        }
         return httpMessae;
     }
 
-    @RequestMapping("/main")
-    public String main(){
-        return "/admin/main";
-    }
-
-    @RequestMapping("logout")
-    public String logout(HttpSession session){
-        session.removeAttribute("admin");
-        return "redirect:/aode/admin/login";
+    /**
+     * @param session 管理员存储session
+     * @return 用户信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "selectMessage",method = RequestMethod.GET)
+    public HttpMessageAndObject<Admin> selectMessage(HttpSession session){
+        Admin admin = (Admin) session.getAttribute("admin");
+        HttpMessageAndObject<Admin> httpMessage = new HttpMessageAndObject<Admin>("200");
+        httpMessage.setObj(admin);
+        return httpMessage;
     }
 
 }

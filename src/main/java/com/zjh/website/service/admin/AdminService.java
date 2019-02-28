@@ -2,6 +2,7 @@ package com.zjh.website.service.admin;
 
 
 import com.zjh.website.pojo.Admin;
+import com.zjh.website.utils.HttpMessage;
 import com.zjh.website.utils.HttpMessageAndObject;
 
 /**
@@ -16,7 +17,7 @@ public interface AdminService {
      * @param admin
      * @return
      */
-    HttpMessageAndObject<Admin> saveAdmin(Admin admin);
+    HttpMessage saveAdmin(Admin admin,String code);
 
     /**
      * 进行管理员登录

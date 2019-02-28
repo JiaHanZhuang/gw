@@ -10,12 +10,10 @@
 <script crossorigin src="/static/js/babel.min.js"></script>
 <script src="/static/js/utils.js" type="text/babel"></script>
 <script type="text/babel">
-
     ReactDOM.render(
         <Message/>,
         document.getElementById("message")
     )
-
 </script>
 <script type="text/javascript">
 $(function(){	
@@ -30,7 +28,7 @@ $(function(){
 
 </head>
 
-<body style="background:url(/resource/admin/images/topbg.gif) repeat-x;">
+<body style="background:url(/static/admin/images/topbg.gif) repeat-x;">
 
     <div class="topleft">
     <a href="main.html" target="_parent"><img src="/static/admin/images/logo.png" title="系统首页" /></a>
@@ -47,9 +45,9 @@ $(function(){
             
     <div class="topright">    
     <ul>
-    <li><span><img src="/static/admin/images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>
-    <li><a href="#">关于</a></li>
-    <li><a href="/admin/logout" target="_parent" >退出</a></li>
+    <!--<li><span><img src="/static/admin/images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>-->
+    <li><a href="#">注册新的管理员账号</a></li>
+    <li><a href="/aode/admin/logout" target="_parent" >退出</a></li>
     </ul>
      
     <div class="user" id="message">

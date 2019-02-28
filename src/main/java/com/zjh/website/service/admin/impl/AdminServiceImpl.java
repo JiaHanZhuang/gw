@@ -4,8 +4,12 @@ package com.zjh.website.service.admin.impl;
 import com.zjh.website.dao.AdminDao;
 import com.zjh.website.pojo.Admin;
 import com.zjh.website.service.admin.AdminService;
+import com.zjh.website.utils.HttpMessage;
 import com.zjh.website.utils.HttpMessageAndObject;
+import com.zjh.website.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 
@@ -13,34 +17,40 @@ import org.springframework.stereotype.Service;
  * @author zjh
  */
 
+@PropertySource("classpath:config/authCode.properties")
 @Service
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminDao adminDao;
 
+    @Value("${Admin.authCode}")
+    private String autoCode;
     private final Integer PASSWORDMINNUMBER = 5;
     private final Integer PASSWORDMAXNUMBER = 16;
 
 
     @Override
-    public HttpMessageAndObject<Admin> saveAdmin(Admin admin) {
-        HttpMessageAndObject<Admin> httpMessage = new HttpMessageAndObject<Admin>("200");
-        //后台校验用户名
-        if(!this.checkUsername(admin.getUsername())) {
-            httpMessage.setMessage("该用户昵称已被使用");
-            return httpMessage;
+    public HttpMessage saveAdmin(Admin admin,String code) {
+        HttpMessage httpMessage = new HttpMessage("200");
+        if(autoCode == code) {
+            //后台校验用户名
+            if(!this.checkUsername(admin.getUsername())) {
+                httpMessage.setMessage("该用户昵称已被使用");
+                return httpMessage;
+            }
+            //后台检验密码长度
+            if(!this.checkPasswordLength(admin.getPassword())){
+                httpMessage.setMessage("密码长度不得小于5字符，不得大于16字符");
+                return httpMessage;
+            }
+            //MD5加密密码
+            admin.setPassword(MD5Util.getMd5(admin.getPassword()));
+            //注册用户
+            adminDao.save(admin);
+        } else {
+            httpMessage.setMessage("验证码不符合，无法注册新管理员");
         }
-        //后台检验密码长度
-        if(!this.checkPasswordLength(admin.getPassword())){
-            httpMessage.setMessage("密码长度不得小于5字符，不得大于16字符");
-            return httpMessage;
-        }
-        //MD5加密密码
-//        admin.setPassword(MD5Util.getMd5(admin.getPassword()));
-        //注册用户
-        admin = adminDao.save(admin);
-        httpMessage.setObj(admin);
         return httpMessage;
     }
 
@@ -56,8 +66,8 @@ public class AdminServiceImpl implements AdminService {
                 httpMessage.setMessage("该用户不存在");
             } else {
                 //校验用户密码是否正确
-//                admin.setPassword(MD5Util.getMd5(admin.getPassword()));
-                temp = adminDao.findByUsernameAndPassword(admin.getUsername(),admin.getPassword());
+                String passwrod = MD5Util.getMd5(admin.getPassword());
+                temp = adminDao.findByUsernameAndPassword(admin.getUsername(),passwrod);
                 if(temp == null) {
                     httpMessage.setMessage("用户密码错误,请重新输入");
                 } else {
