@@ -39,21 +39,26 @@ public class ApplyServiceImpl implements ApplyService {
         HttpMessage message = new HttpMessage("200");
         boolean flag ;
         //查询是否已经报名
-        ApplyMessage temp = applyDao.findApplyMessageByEmailOrPhone(applyMessage.getEmail(),applyMessage.getPhone());
-        //防止空指针
-        if(temp!= null) {
-            //检测是否已报名
-            if(temp.getId() != null) {
-                message.setMessage("已报名，请勿重复报名");
+        try {
+            ApplyMessage temp = applyDao.findApplyMessageByEmailOrPhone(applyMessage.getEmail(),applyMessage.getPhone());
+            //防止空指针
+            if(temp!= null) {
+                //检测是否已报名
+                if(temp.getId() != null) {
+                    message.setMessage("已报名，请勿重复报名");
+                } else {
+                    applyDao.save(applyMessage);
+                    logger.info("存储成功");
+                    message.setMessage("报名成功");
+                }
             } else {
                 applyDao.save(applyMessage);
                 logger.info("存储成功");
                 message.setMessage("报名成功");
             }
-        } else {
-            applyDao.save(applyMessage);
-            logger.info("存储成功");
-            message.setMessage("报名成功");
+        } catch (Exception e) {
+            logger.error("执行过程中出现了错误：");
+            e.printStackTrace();
         }
         return message;
     }

@@ -125,18 +125,22 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
                     // 转义小于号
                     sb.append("＜");
                     break;
-//            case '\'':
-//                sb.append("＇");// 转义单引号
-//                break;
-//            case '\"':
-//                sb.append("＂");// 转义双引号
-//                break;
-//            case '&':
-//                sb.append("＆");// 转义&
-//                break;
-//            case '#':
-//                sb.append("＃");// 转义#
-//                break;
+            case '\'':
+                // 转义单引号
+                sb.append("＇");
+                break;
+            case '\"':
+                // 转义双引号
+                sb.append("＂");
+                break;
+            case '&':
+                // 转义&
+                sb.append("＆");
+                break;
+            case '#':
+                // 转义#
+                sb.append("＃");
+                break;
                 default:
                     sb.append(c);
                     break;

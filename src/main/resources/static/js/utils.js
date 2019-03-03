@@ -270,12 +270,10 @@ class UserFrom extends React.Component {
         if(username === '') {
             boolean = false;
             alert("账户不可为空")
-        }
-        if(password === '') {
+        } else if(password === '') {
             boolean = false;
             alert("密码不可为空")
-        }
-        if(password.length < 5 || password.length > 16) {
+        } else if(password.length < 5 || password.length > 16) {
             boolean = false;
             alert("密码长度不得小于5字符，不得大于16字符")
         }
@@ -402,6 +400,76 @@ class SelectApply extends React.Component {
                         <input type="submit" value="查询" onClick={this.sumbit}/>
                     </div>
             </div>
+        );
+    }
+}
+
+
+class LoginUp extends React.Component {
+    constructor(){
+        super();
+        this.state = {username:"",password:"",authCode:""};
+        this.authCode = this.authCode.bind(this);
+        this.changeUsername = this.changeUsername.bind(this);
+        this.changePassword = this.changePassword.bind(this);
+        this.loginUp = this.loginUp.bind(this);
+    }
+
+    changeUsername(e){
+        this.setState({
+            username:e.target.value
+        });
+    }
+
+    changePassword(e){
+        this.setState({
+            password:e.target.value
+        });
+    }
+
+    authCode(e){
+        this.setState({
+            authCode:e.target.value
+        });
+    }
+
+    loginUp(){
+        let username = this.state.username;
+        let password = this.state.password;
+        let code = this.state.authCode;
+        let boolean = true;
+        if(username === "") {
+            alert("用户名不能为空")
+            boolean = false;
+        } else if(password === "") {
+            alert("密码不能为空")
+            boolean = false;
+        } else if(password.length < 5 && password.length > 16){
+            alert("密码长度不得小于5字符，不得大于16字符")
+            boolean = false;
+        } else if(code === "") {
+            alert("验证码不能为空")
+            boolean = false;
+        }
+        if(boolean) {
+            $.post("/aode/admin/loginUp",{
+                username:username,
+                password:password,
+                code:code
+            },function (result) {
+                alert(result.message)
+            })
+        }
+    }
+
+    render(){
+        return(
+            <ul className="forminfo">
+                <li><label>账号</label><input type="text" className="dfinput" onChange={this.changeUsername}/></li>
+                <li><label>密码</label><input type="password" className="dfinput" onChange={this.changePassword}/><i>密码长度不得小于5字符，不得大于16字符</i></li>
+                <li><label>验证码</label><input type="text" className="dfinput" onChange={this.authCode}/></li>
+                <li><label>&nbsp;</label><input type="button" className="btn" defaultValue="确认注册" onClick={this.loginUp}/></li>
+            </ul>
         );
     }
 }

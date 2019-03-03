@@ -29,7 +29,7 @@ public class AdminBasicController {
         return "/admin/login";
     }
 
-    @RequestMapping("/main")
+    @RequestMapping("main")
     public String main(){
         return "/admin/main";
     }
