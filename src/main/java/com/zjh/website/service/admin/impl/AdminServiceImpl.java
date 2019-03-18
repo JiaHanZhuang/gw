@@ -2,7 +2,9 @@ package com.zjh.website.service.admin.impl;
 
 
 import com.zjh.website.dao.AdminDao;
+import com.zjh.website.dao.ApplyDao;
 import com.zjh.website.pojo.Admin;
+import com.zjh.website.pojo.ApplyMessageNumber;
 import com.zjh.website.service.admin.AdminService;
 import com.zjh.website.utils.HttpMessage;
 import com.zjh.website.utils.HttpMessageAndObject;
@@ -14,6 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,6 +30,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminDao adminDao;
+    @Autowired
+    private ApplyDao applyDao;
 
     private Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
 
@@ -79,8 +85,12 @@ public class AdminServiceImpl implements AdminService {
     public HttpMessageAndObject loginUp(Admin admin) {
         HttpMessageAndObject<Admin> httpMessage = new HttpMessageAndObject<Admin>("200");
         //登录的为默认账户
-        if(username.equals(admin.getUsername())&&password.equals(admin.getPassword())) {
-            httpMessage.setObj(admin);
+        if(username.equals(admin.getUsername())) {
+            if(password.equals(admin.getPassword())) {
+                httpMessage.setObj(admin);
+            } else {
+                httpMessage.setMessage("用户密码错误,请重新输入");
+            }
         } else {
             //登录的不为默认账户
             //定义一个临时对象
@@ -107,6 +117,54 @@ public class AdminServiceImpl implements AdminService {
         return httpMessage;
     }
 
+    @Override
+    public List<ApplyMessageNumber> findDepartmentNumber(String... department) {
+        List<ApplyMessageNumber> list = new ArrayList<>();
+        long number;
+        logger.info(department.toString());
+        try {
+            for (String dep: department) {
+                number = applyDao.findDepartmentNumber(dep);
+                list.add(new ApplyMessageNumber(dep,number));
+            }
+        } catch (Exception e) {
+            logger.error("发生了一个错误");
+            throw e;
+        }
+        return list;
+    }
+
+    @Override
+    public List<ApplyMessageNumber> findSexNumber(int... sex) {
+        List<ApplyMessageNumber> list = new ArrayList<>();
+        long number;
+        try {
+            for (int mark: sex) {
+                number = applyDao.findSexNumber(mark);
+                list.add(new ApplyMessageNumber(mark,number));
+            }
+        } catch (Exception e) {
+            logger.error("发生了一个错误");
+            throw e;
+        }
+        return list;
+    }
+
+    @Override
+    public List<ApplyMessageNumber> findDepartmentSexNumber(String department, int... sex) {
+        List<ApplyMessageNumber> list = new ArrayList<>();
+        long number;
+        try {
+            for (int mark: sex) {
+                number = applyDao.findDepartmentSexNumber(department,mark);
+                list.add(new ApplyMessageNumber(department,mark,number));
+            }
+        } catch (Exception e) {
+            logger.error("发生了一个错误");
+            throw e;
+        }
+        return list;
+    }
 
 
     private Boolean checkUsername(String username) {

@@ -1,11 +1,7 @@
 package com.zjh.website.controller.admin;
 
-import com.zjh.website.pojo.Admin;
-import com.zjh.website.utils.HttpMessageAndObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 

@@ -25,6 +25,12 @@ public class ApplyMessageNumber {
         this.number = number;
     }
 
+    public ApplyMessageNumber(String department, int sex,Long number){
+        this.department = department;
+        this.number = number;
+        this.sex = sex;
+    }
+
     public String getDepartment() {
         return department;
     }

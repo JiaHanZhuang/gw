@@ -473,3 +473,121 @@ class LoginUp extends React.Component {
         );
     }
 }
+
+class ApplyMessage extends React.Component {
+    constructor(){
+        super();
+        this.state={applyMessage:"",sexScale:""};
+        this.applyMessageNumber = this.applyMessageNumber.bind(this);
+        this.showSexScale = this.showSexScale.bind(this);
+        this.closeBlock = this.closeBlock.bind(this);
+        this.applyMessageNumber()
+    }
+
+    applyMessageNumber(){
+        const department = ["Java部","美工部","php部",".Net部","行政部"];
+        let that = this;
+        $.post("/aode/admin/findDepartmentNumber",{
+            department:department
+        },function (result) {
+            that.setState({
+                applyMessage:result.obj
+            });
+        })
+    }
+
+    showSexScale(e){
+        let that = this;
+        let department = e.target.getAttribute("data-value");
+        $.post("/aode/admin/findDepartmentSex",{
+            department:department,
+            sex :[0,1]
+        },function (result) {
+            alert("女："+result.obj[0].number+" 男："+result.obj[1].number)
+        });
+    }
+
+    closeBlock(){
+        $(".tiptop a").click(function(){
+            $(".tip").fadeOut(200);
+        });
+    }
+
+    render(){
+        const obj = this.state.applyMessage;
+        return(
+            <table className="imgtable">
+
+                <thead>
+                <tr>
+                    <th>部门名称</th>
+                    <th>报名人数</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    {
+                        Object.keys(obj).map(key =>{
+                            return(
+                                <tr>
+                                    <td>{obj[key].department}</td>
+                                    <td>{obj[key].number}</td>
+                                    <td>
+                                        <a href="#" >审查报名信息</a>&nbsp;
+                                        <a href="#" onClick={this.showSexScale} data-value={obj[key].department}>查看部门男女比例</a>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+
+            </table>
+        );
+    }
+}
+
+class SexMessage extends React.Component {
+    constructor(){
+        super();
+        this.state={woman:"",man:""};
+        this.sexNumber = this.sexNumber.bind(this);
+        this.closeBlock = this.closeBlock.bind(this);
+        this.sexNumber();
+    }
+
+    sexNumber(){
+        let that = this;
+        $.post("/aode/admin/findSexNumber",{
+            sex:[0,1]
+        },function (result) {
+            that.setState({
+                woman:result.obj[0].number,
+                man:result.obj[1].number
+            });
+        })
+    }
+
+    closeBlock(){
+        $(".tiptop a").click(function(){
+            $(".tip").fadeOut(200);
+        });
+    }
+
+    render(){
+        return(
+            <div className="tip">
+                <div className="tiptop"><span>提示信息</span><a onClick={this.closeBlock}></a></div>
+
+                <div className="tipinfo">
+                    <span><img src="/static/admin/images/ticon.png"/></span>
+                    <div className="tipright">
+                        <p>报名男女人数为：</p>
+                        <cite>女：男 = {this.state.woman} : {this.state.man} </cite>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
